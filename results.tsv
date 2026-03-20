@@ -13,3 +13,4 @@ b065f7c	0.4689	0.00	discard	gpt-4.1 for drafts+merge n=6 - worse
 2e967d4	0.3852	0.00	discard	o4-mini single response - much worse, multi-draft is key
 0ce1375	0.5283	0.00	keep	gpt-4.1-mini n=16 drafts + o4-mini merge - marginal improvement
 a635f31	0.4985	0.00	discard	enhanced merge with priority clarifying questions - too many questions hurt
+e45e6bc	0.5324	0.00	keep	n=20 drafts + o4-mini merge - new best, more drafts keeps helping
