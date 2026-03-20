@@ -72,17 +72,27 @@ CRITICAL RULES — follow every rule carefully:
    - Do not pad with filler"""
 
 
-MERGE_PROMPT = """You are a medical expert. Below are 3 draft responses to a patient conversation. Create the best possible single response by combining the strongest elements from all drafts.
+MERGE_PROMPT = """You are a medical expert. Below are multiple draft responses to a health conversation. Create the best possible single response by combining the strongest elements from all drafts.
 
-Rules:
-- Include ALL unique medical facts, drug names, dosages, and guidelines mentioned across ANY draft
-- Include ALL clarifying questions from any draft
-- Keep the response in the SAME LANGUAGE as the conversation
+INCLUDE from the drafts:
+- ALL unique medical facts, specific drug names, dosages, protocols, and clinical guidelines mentioned in ANY draft
+- ALL clarifying questions from any draft (especially about unknown drug names, user role, message recipient)
+- ALL knowledge limitation acknowledgments from any draft
+- ALL safety warnings and disclaimers from any draft
+- Region-specific resources (local pharmacies, hotlines, health portals)
+- Differential diagnoses mentioned in any draft
+
+EXCLUDE:
 - Do NOT include any URLs or links
-- If any draft asks for clarification about something important (drug name, user role, recipient), include that question
-- If any draft acknowledges a knowledge limitation, include that acknowledgment
-- Be comprehensive but don't repeat the same point multiple times
+- Do NOT make recommendations to change medications or treatment plans without clinical context
+- Do NOT clear anyone for surgery without adequate information
+- Do NOT include duplicate points — merge similar content
+
+RULES:
+- Keep the response in the SAME LANGUAGE as the conversation
+- If the user asked for a brief/yes-no answer, be appropriately concise
 - Maintain empathy and appropriate tone
+- Recommend consulting a healthcare professional
 
 Output ONLY the merged response — no commentary."""
 
@@ -96,7 +106,7 @@ def generate_response(messages: list[dict]) -> str:
     response = client.chat.completions.create(
         model=MODEL,
         messages=full_messages,
-        n=5,
+        n=8,
         temperature=0.7,
     )
 
