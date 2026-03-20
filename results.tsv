@@ -5,3 +5,13 @@ c2b3342	0.2943	0.00	discard	detailed system prompt with thinking - too restricti
 6730657	0.4634	0.00	keep	self-refine: generate+critique+improve on gpt-4.1
 efd3189	0.5185	0.00	keep	o3 reasoning model
 4851c88	0.5364	0.00	keep	o3 with reasoning_effort=high
+c548fd7	0.4842	0.00	discard	self-verification checklist prompt - hurt score
+f7756c3	0.5132	0.00	discard	minimal prompt - worse than detailed
+8e2af24	0.4930	0.00	discard	two-pass self-refine o3 medium+high - timeout issues
+f91eb95	0.4658	0.00	discard	o3 Responses API + web search - errors and worse
+1073497	0.5062	0.00	discard	developer role instead of system - worse
+c3e11b1	0.5163	0.00	keep	re-run of best code (variance check)
+d26710a	0.5053	0.00	discard	best-of-2 longest selection - worse
+220d4a8	0.5158	0.00	discard	dynamic prompt augmentation - within noise
+b2135f3	0.5123	0.00	discard	trimmed dynamic hints (emergency+lang only) - noise
+8230c07	0.5193	0.00	discard	best-of-2 with LLM selector - noise
