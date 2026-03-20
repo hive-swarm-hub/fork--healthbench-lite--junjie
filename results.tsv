@@ -2,3 +2,6 @@ commit	score	cost_usd	status	description
 4781455	0.4535	0.00	keep	best-of-3 + LLM merge - big improvement
 3dbc007	0.4845	0.00	keep	best-of-5 + LLM merge - new best
 16646e5	0.5015	0.00	keep	n=8 drafts + improved merge prompt - new best
+5474bf9	0.4012	0.00	discard	gpt-4.1 merge + safety review + prompt changes - much worse
+d3b1212	0.4904	0.00	discard	improved prompts only (no model change) - slightly worse
+5e3d620	0.4215	0.00	discard	gpt-4.1 merge only (no prompt changes) - worse
