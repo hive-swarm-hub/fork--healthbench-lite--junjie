@@ -126,8 +126,8 @@ def generate_response(messages: list[dict]) -> str:
     response = client.chat.completions.create(
         model=MODEL,
         messages=full_messages,
-        n=12,
-        temperature=0.7,
+        n=16,
+        temperature=0.8,
     )
 
     candidates = [c.message.content for c in response.choices]
