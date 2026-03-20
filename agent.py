@@ -148,6 +148,7 @@ def generate_response(messages: list[dict]) -> str:
     merged = client.chat.completions.create(
         model="o4-mini",
         messages=merge_messages,
+        reasoning={"effort": "medium"},
     )
     return merged.choices[0].message.content
 
