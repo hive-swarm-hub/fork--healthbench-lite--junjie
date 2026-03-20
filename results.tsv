@@ -1,3 +1,4 @@
 commit	score	cost_usd	status	description
 7c20935	0.3471	0.00	keep	baseline gpt-4.1-mini
 c2b3342	0.2943	0.00	discard	detailed system prompt with thinking - too restrictive
+3a63e2d	0.4626	0.00	keep	upgrade model to gpt-4.1
