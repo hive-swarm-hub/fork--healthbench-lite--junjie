@@ -145,12 +145,18 @@ def generate_response(messages: list[dict]) -> str:
         {"role": "user", "content": f"CONVERSATION:\n{conversation_str}\n\n{drafts_str}"},
     ]
 
-    merged = client.chat.completions.create(
-        model="o4-mini",
-        messages=merge_messages,
-        max_completion_tokens=4096,
-    )
-    return merged.choices[0].message.content
+    # Run 3 merge attempts and pick the longest (most comprehensive)
+    merge_results = []
+    for _ in range(3):
+        merged = client.chat.completions.create(
+            model="o4-mini",
+            messages=merge_messages,
+            max_completion_tokens=4096,
+        )
+        merge_results.append(merged.choices[0].message.content)
+
+    # Pick the longest merge result — longer responses tend to be more comprehensive
+    return max(merge_results, key=len)
 
 
 if __name__ == "__main__":
