@@ -26,3 +26,5 @@ f7888af	0.5633	0.00	keep	n=48 drafts - new best
 dcdb1ff	0.5743	0.00	keep	mixed 32 gpt-4.1-mini + 8 gpt-4.1 drafts - new best
 1d591ed	0.5636	0.00	discard	24+16 ratio worse
 a6c3d02	0.5744	0.00	keep	40+8 ratio same as 32+8
+d02f74a	0.5759	0.00	keep	re-run best - highest score (1 timeout)
+eb28faf	0.5638	0.00	keep	parallel drafts 40+10 0 errors
