@@ -127,7 +127,7 @@ def generate_response(messages: list[dict]) -> str:
     response_mini = client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=full_messages,
-        n=32,
+        n=40,
         temperature=0.8,
     )
 
