@@ -4,3 +4,4 @@ c2b3342	0.2943	0.00	discard	detailed system prompt with thinking - too restricti
 3a63e2d	0.4626	0.00	keep	upgrade model to gpt-4.1
 6730657	0.4634	0.00	keep	self-refine: generate+critique+improve on gpt-4.1
 efd3189	0.5185	0.00	keep	o3 reasoning model
+4851c88	0.5364	0.00	keep	o3 with reasoning_effort=high
