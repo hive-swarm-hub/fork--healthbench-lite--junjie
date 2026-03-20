@@ -22,3 +22,5 @@ ccc0bd6	0.5535	0.00	keep	n=32 drafts - new best, trend continues
 f7888af	0.5633	0.00	keep	n=48 drafts - new best
 734f3d7	0.5386	0.00	keep	n=48 rerun - shows ~0.03 variance
 9820310	0.5687	0.00	keep	3 merges pick longest - new best, reduces variance
+1b5f75c	0.4984	0.00	discard	gpt-4o-mini drafts - much worse than gpt-4.1-mini
+dcdb1ff	0.5743	0.00	keep	mixed 32 gpt-4.1-mini + 8 gpt-4.1 drafts - new best
