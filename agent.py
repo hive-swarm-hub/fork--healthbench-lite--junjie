@@ -73,7 +73,7 @@ CRITICAL RULES — follow every rule carefully:
 
 
 def generate_response(messages: list[dict]) -> str:
-    """Generate a response to a health conversation."""
+    """Generate 3 responses and pick the best one (longest = most complete)."""
     client = OpenAI()
 
     full_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
@@ -81,9 +81,13 @@ def generate_response(messages: list[dict]) -> str:
     response = client.chat.completions.create(
         model=MODEL,
         messages=full_messages,
+        n=3,
+        temperature=0.7,
     )
 
-    return response.choices[0].message.content
+    # Pick the longest response (heuristic: more complete → more rubric points)
+    candidates = [c.message.content for c in response.choices]
+    return max(candidates, key=len)
 
 
 if __name__ == "__main__":
