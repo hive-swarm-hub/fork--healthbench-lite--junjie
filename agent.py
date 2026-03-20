@@ -72,8 +72,23 @@ CRITICAL RULES — follow every rule carefully:
    - Do not pad with filler"""
 
 
+MERGE_PROMPT = """You are a medical expert. Below are 3 draft responses to a patient conversation. Create the best possible single response by combining the strongest elements from all drafts.
+
+Rules:
+- Include ALL unique medical facts, drug names, dosages, and guidelines mentioned across ANY draft
+- Include ALL clarifying questions from any draft
+- Keep the response in the SAME LANGUAGE as the conversation
+- Do NOT include any URLs or links
+- If any draft asks for clarification about something important (drug name, user role, recipient), include that question
+- If any draft acknowledges a knowledge limitation, include that acknowledgment
+- Be comprehensive but don't repeat the same point multiple times
+- Maintain empathy and appropriate tone
+
+Output ONLY the merged response — no commentary."""
+
+
 def generate_response(messages: list[dict]) -> str:
-    """Generate 3 responses and pick the best one (longest = most complete)."""
+    """Generate 3 responses, then merge them into one optimal response."""
     client = OpenAI()
 
     full_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
@@ -85,9 +100,26 @@ def generate_response(messages: list[dict]) -> str:
         temperature=0.7,
     )
 
-    # Pick the longest response (heuristic: more complete → more rubric points)
     candidates = [c.message.content for c in response.choices]
-    return max(candidates, key=len)
+
+    # Merge the 3 candidates into one optimal response
+    conversation_str = "\n".join(
+        f"[{m['role'].upper()}]: {m['content']}" for m in messages
+    )
+    drafts_str = "\n\n---\n\n".join(
+        f"DRAFT {i+1}:\n{c}" for i, c in enumerate(candidates)
+    )
+
+    merge_messages = [
+        {"role": "system", "content": MERGE_PROMPT},
+        {"role": "user", "content": f"CONVERSATION:\n{conversation_str}\n\n{drafts_str}"},
+    ]
+
+    merged = client.chat.completions.create(
+        model=MODEL,
+        messages=merge_messages,
+    )
+    return merged.choices[0].message.content
 
 
 if __name__ == "__main__":
