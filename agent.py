@@ -35,6 +35,7 @@ def generate_response(messages: list[dict]) -> str:
     response = client.chat.completions.create(
         model=MODEL,
         messages=full_messages,
+        reasoning_effort="high",
     )
 
     return response.choices[0].message.content
