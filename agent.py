@@ -13,7 +13,7 @@ import sys
 
 from openai import OpenAI
 
-MODEL = os.environ.get("SOLVER_MODEL", "gpt-4.1-mini")
+MODEL = os.environ.get("SOLVER_MODEL", "gpt-4.1")
 
 SYSTEM_PROMPT = """You are a helpful, accurate, and empathetic health assistant.
 
