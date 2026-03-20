@@ -141,12 +141,12 @@ def generate_response(messages: list[dict]) -> str:
     )
 
     merge_messages = [
-        {"role": "system", "content": MERGE_PROMPT},
+        {"role": "developer", "content": MERGE_PROMPT},
         {"role": "user", "content": f"CONVERSATION:\n{conversation_str}\n\n{drafts_str}"},
     ]
 
     merged = client.chat.completions.create(
-        model=MODEL,
+        model="o4-mini",
         messages=merge_messages,
     )
     return merged.choices[0].message.content
