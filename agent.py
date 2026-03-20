@@ -162,15 +162,17 @@ def generate_response(messages: list[dict]) -> str:
         {"role": "user", "content": f"CONVERSATION:\n{conversation_str}\n\n{drafts_str}"},
     ]
 
-    # Run 3 merge attempts and pick the longest (most comprehensive)
-    merge_results = []
-    for _ in range(3):
-        merged = client.chat.completions.create(
+    # Run 3 merge attempts in parallel and pick the longest
+    def do_merge():
+        return client.chat.completions.create(
             model="o4-mini",
             messages=merge_messages,
             max_completion_tokens=4096,
-        )
-        merge_results.append(merged.choices[0].message.content)
+        ).choices[0].message.content
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        merge_futures = [pool.submit(do_merge) for _ in range(3)]
+        merge_results = [f.result() for f in merge_futures]
 
     return max(merge_results, key=len)
 
