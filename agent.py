@@ -174,7 +174,10 @@ def generate_response(messages: list[dict]) -> str:
         merge_futures = [pool.submit(do_merge) for _ in range(5)]
         merge_results = [f.result() for f in merge_futures]
 
-    return max(merge_results, key=len)
+    # Score each merge by composite: length + questions + bold emphasis
+    def score_merge(text):
+        return len(text) + text.count('?') * 50 + text.count('**') * 20
+    return max(merge_results, key=score_merge)
 
 
 if __name__ == "__main__":
