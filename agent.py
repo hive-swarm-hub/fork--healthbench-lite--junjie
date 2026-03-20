@@ -118,30 +118,38 @@ Output ONLY the merged response — no commentary."""
 
 
 def generate_response(messages: list[dict]) -> str:
-    """Generate drafts from multiple models, then merge into one optimal response."""
-    client = OpenAI()
+    """Generate drafts from multiple models in parallel, then merge into one optimal response."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
 
+    client = OpenAI()
     full_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
 
-    # Generate from both gpt-4.1-mini and gpt-4.1 for diverse knowledge
-    response_mini = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=full_messages,
-        n=40,
-        temperature=0.8,
-    )
+    # Generate drafts from multiple models in parallel
+    def gen_mini():
+        return client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=full_messages,
+            n=40,
+            temperature=0.8,
+        )
 
-    response_full = client.chat.completions.create(
-        model="gpt-4.1",
-        messages=full_messages,
-        n=8,
-        temperature=0.7,
-    )
+    def gen_full():
+        return client.chat.completions.create(
+            model="gpt-4.1",
+            messages=full_messages,
+            n=10,
+            temperature=0.7,
+        )
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        future_mini = pool.submit(gen_mini)
+        future_full = pool.submit(gen_full)
+        response_mini = future_mini.result()
+        response_full = future_full.result()
 
     candidates = [c.message.content for c in response_mini.choices] + \
                  [c.message.content for c in response_full.choices]
 
-    # Merge the 3 candidates into one optimal response
     conversation_str = "\n".join(
         f"[{m['role'].upper()}]: {m['content']}" for m in messages
     )
@@ -164,7 +172,6 @@ def generate_response(messages: list[dict]) -> str:
         )
         merge_results.append(merged.choices[0].message.content)
 
-    # Pick the longest merge result — longer responses tend to be more comprehensive
     return max(merge_results, key=len)
 
 
