@@ -96,7 +96,7 @@ def generate_response(messages: list[dict]) -> str:
     response = client.chat.completions.create(
         model=MODEL,
         messages=full_messages,
-        n=3,
+        n=5,
         temperature=0.7,
     )
 
