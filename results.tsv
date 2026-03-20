@@ -18,3 +18,4 @@ a3787a7	0.5414	0.00	keep	n=24 drafts o4-mini merge - new best (1 timeout)
 b9a35ab	0.5159	0.00	discard	n=24 gpt-4.1-mini merge - worse, o4-mini merge quality matters
 8ba2511	0.0000	0.00	discard	reasoning param not supported by SDK - all errors
 45616da	0.5392	0.00	keep	n=24 o4-mini merge with max_completion_tokens=4096 - no timeouts, new best
+ccc0bd6	0.5535	0.00	keep	n=32 drafts - new best, trend continues
