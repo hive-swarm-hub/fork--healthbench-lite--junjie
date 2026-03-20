@@ -170,8 +170,8 @@ def generate_response(messages: list[dict]) -> str:
             max_completion_tokens=4096,
         ).choices[0].message.content
 
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        merge_futures = [pool.submit(do_merge) for _ in range(3)]
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        merge_futures = [pool.submit(do_merge) for _ in range(5)]
         merge_results = [f.result() for f in merge_futures]
 
     return max(merge_results, key=len)
