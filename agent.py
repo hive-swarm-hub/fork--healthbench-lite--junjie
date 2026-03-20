@@ -118,19 +118,28 @@ Output ONLY the merged response — no commentary."""
 
 
 def generate_response(messages: list[dict]) -> str:
-    """Generate 3 responses, then merge them into one optimal response."""
+    """Generate drafts from multiple models, then merge into one optimal response."""
     client = OpenAI()
 
     full_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
 
-    response = client.chat.completions.create(
-        model=MODEL,
+    # Generate from both gpt-4.1-mini and gpt-4.1 for diverse knowledge
+    response_mini = client.chat.completions.create(
+        model="gpt-4.1-mini",
         messages=full_messages,
-        n=48,
+        n=32,
         temperature=0.8,
     )
 
-    candidates = [c.message.content for c in response.choices]
+    response_full = client.chat.completions.create(
+        model="gpt-4.1",
+        messages=full_messages,
+        n=8,
+        temperature=0.7,
+    )
+
+    candidates = [c.message.content for c in response_mini.choices] + \
+                 [c.message.content for c in response_full.choices]
 
     # Merge the 3 candidates into one optimal response
     conversation_str = "\n".join(
