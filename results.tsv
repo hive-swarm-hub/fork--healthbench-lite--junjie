@@ -6,3 +6,4 @@ commit	score	cost_usd	status	description
 d3b1212	0.4904	0.00	discard	improved prompts only (no model change) - slightly worse
 5e3d620	0.4215	0.00	discard	gpt-4.1 merge only (no prompt changes) - worse
 cedb8e4	0.5034	0.00	keep	n=12 drafts - slight improvement over n=8
+ae034c2	0.5220	0.00	keep	improved prompts: ambiguity, region-specific, medication safety - new best
